@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
 import { AppService } from './services/app.service';
+import { EcService } from './services/ec.service';
 import configuration from 'src/config/configuration';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -36,6 +37,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
   controllers: [AppController],
   providers: [
     AppService,
+    EcService,
     {
       provide: APP_INTERCEPTOR,
       useClass: GlobalErrorsInterceptor,
