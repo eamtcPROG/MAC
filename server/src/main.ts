@@ -11,6 +11,18 @@ async function bootstrap() {
   if (!port) {
     throw new Error('PORT is not set');
   }
+  const corsOrigins =
+    configService
+      .get<string>('cors.origins')
+      ?.split(',')
+      .map((o) => o.trim()) ?? [];
+  if (corsOrigins.length === 0) {
+    throw new Error('CORS_ORIGINS is not set');
+  }
+  app.enableCors({
+    origin: corsOrigins,
+    credentials: true,
+  });
   const version = configService.get<string>('version');
   if (!version) {
     throw new Error('version is not set');

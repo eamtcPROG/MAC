@@ -121,6 +121,7 @@ export class EcService {
         privateIp: instance.PrivateIpAddress,
         instanceType: instance.InstanceType || instanceType,
         launchTime: instance.LaunchTime,
+        region: targetRegion,
       };
     } catch (error) {
       console.error(

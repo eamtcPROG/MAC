@@ -10,6 +10,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GlobalErrorsInterceptor } from './interceptors/global-errors.interceptor';
 import { GlobalResponseInterceptor } from './interceptors/global-response.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { VM } from './models/vm.model';
+import { VmService } from './services/vm.service';
 
 @Module({
   imports: [
@@ -29,15 +31,17 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
           password: config.get<string>('database.password'),
           database: config.get<string>('database.database'),
           synchronize: true,
-          entities: [],
+          entities: [VM],
         };
       },
     }),
+    TypeOrmModule.forFeature([VM]),
   ],
   controllers: [AppController],
   providers: [
     AppService,
     EcService,
+    VmService,
     {
       provide: APP_INTERCEPTOR,
       useClass: GlobalErrorsInterceptor,

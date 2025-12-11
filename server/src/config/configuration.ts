@@ -18,4 +18,7 @@ export default () => ({
     subnetId: process.env.SUBNET_ID,
     vpcId: process.env.VPC_ID,
   },
+  cors: {
+    origins: process.env.CORS_ORIGINS,
+  },
 });
