@@ -271,63 +271,56 @@ const HomePage: React.FC = () => {
   return (
     <div className="page">
       <div className="page-header">
-        <div>
-          <h1>VM Dashboard</h1>
-          <p className="muted small">Create, inspect, and manage VMs quickly.</p>
-        </div>
+        <h1>VM Dashboard</h1>
       </div>
 
-      <div className="content-grid">
-        <div className="stack">
-          <VmForm
-            form={state.form}
-            canSubmit={canSubmit}
-            isSubmitting={state.isCreating}
-            error={state.formError}
-            onChange={handleChange}
-            onSubmit={handleCreate}
-          />
+      <VmForm
+        form={state.form}
+        canSubmit={canSubmit}
+        isSubmitting={state.isCreating}
+        error={state.formError}
+        onChange={handleChange}
+        onSubmit={handleCreate}
+      />
 
-          <VmTable
-            vms={state.vms}
-            isFetching={state.isFetchingList}
-            isDescribing={state.isDescribing}
-            isDeleting={state.isDeleting}
-            error={state.listError}
-            onSelect={handleSelect}
-            onDescribe={handleDescribe}
-            onDelete={handleDelete}
-            onRefresh={() => {
-              if (state.page !== 1) {
-                dispatch({ type: "setPage", payload: 1 });
-              } else {
-                loadVms();
-              }
-            }}
-          />
+      <VmTable
+        vms={state.vms}
+        isFetching={state.isFetchingList}
+        isDescribing={state.isDescribing}
+        isDeleting={state.isDeleting}
+        error={state.listError}
+        onSelect={handleSelect}
+        onDescribe={handleDescribe}
+        onDelete={handleDelete}
+        onRefresh={() => {
+          if (state.page !== 1) {
+            dispatch({ type: "setPage", payload: 1 });
+          } else {
+            loadVms();
+          }
+        }}
+      />
 
-          <PaginationControls
-            page={state.page}
-            totalPages={state.totalPages}
-            disabled={state.isFetchingList}
-            onPrev={() =>
-              dispatch({
-                type: "setPage",
-                payload: Math.max(1, state.page - 1),
-              })
-            }
-            onNext={() => dispatch({ type: "setPage", payload: state.page + 1 })}
-          />
-        </div>
+      <PaginationControls
+        page={state.page}
+        totalPages={state.totalPages}
+        disabled={state.isFetchingList}
+        onPrev={() =>
+          dispatch({
+            type: "setPage",
+            payload: Math.max(1, state.page - 1),
+          })
+        }
+        onNext={() => dispatch({ type: "setPage", payload: state.page + 1 })}
+      />
 
-        <div className="stack">
-          <VmDetails vm={state.selectedVm} error={state.detailsError} />
+      <div className="details-grid">
+        <VmDetails vm={state.selectedVm} error={state.detailsError} />
 
-          <InstanceInfoPanel
-            info={state.instanceInfo}
-            error={state.describeError}
-          />
-        </div>
+        <InstanceInfoPanel
+          info={state.instanceInfo}
+          error={state.describeError}
+        />
       </div>
     </div>
   );

@@ -38,48 +38,50 @@ export function VmTable({
       {!isFetching && vms.length === 0 ? (
         <EmptyState message="No VMs found." />
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>InstanceId</th>
-              <th>Type</th>
-              <th>Owner</th>
-              <th>Region</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vms.map((vm) => (
-              <tr key={vm.id}>
-                <td>{vm.id}</td>
-                <td>{vm.vmName}</td>
-                <td>{vm.instanceId}</td>
-                <td>{vm.instanceType}</td>
-                <td>{vm.ownerUsername}</td>
-                <td>{vm.region}</td>
-                <td className="actions-cell">
-                  <button onClick={() => onSelect(vm.id)} disabled={isFetching}>
-                    View
-                  </button>
-                  <button
-                    onClick={() => onDescribe(vm.id)}
-                    disabled={isFetching || isDescribing}
-                  >
-                    {isDescribing ? 'Describing...' : 'Describe'}
-                  </button>
-                  <button
-                    onClick={() => onDelete(vm.id)}
-                    disabled={isFetching || isDeleting}
-                  >
-                    {isDeleting ? 'Deleting...' : 'Delete'}
-                  </button>
-                </td>
+        <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>InstanceId</th>
+                <th>Type</th>
+                <th>Owner</th>
+                <th>Region</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {vms.map((vm) => (
+                <tr key={vm.id}>
+                  <td>{vm.id}</td>
+                  <td>{vm.vmName}</td>
+                  <td>{vm.instanceId}</td>
+                  <td>{vm.instanceType}</td>
+                  <td>{vm.ownerUsername}</td>
+                  <td>{vm.region}</td>
+                  <td className="actions-cell">
+                    <button onClick={() => onSelect(vm.id)} disabled={isFetching}>
+                      View
+                    </button>
+                    <button
+                      onClick={() => onDescribe(vm.id)}
+                      disabled={isFetching || isDescribing}
+                    >
+                      {isDescribing ? 'Describing...' : 'Describe'}
+                    </button>
+                    <button
+                      onClick={() => onDelete(vm.id)}
+                      disabled={isFetching || isDeleting}
+                    >
+                      {isDeleting ? 'Deleting...' : 'Delete'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
   );
