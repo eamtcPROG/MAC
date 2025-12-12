@@ -1,18 +1,55 @@
-import type { InstanceInfoDto } from '../../api/api';
+import type { InstanceInfoDto, VMDto } from '../../api/api';
 import { Alert } from './Alert';
 
 interface InstanceInfoPanelProps {
   info: InstanceInfoDto | null;
   error?: string | null;
+  selectedVm: VMDto | null;
+  isDescribing?: boolean;
+  onDescribe?: () => void;
+  onClear?: () => void;
+  hasSelection?: boolean;
 }
 
-export function InstanceInfoPanel({ info, error }: InstanceInfoPanelProps) {
+export function InstanceInfoPanel({ 
+  info, 
+  error, 
+  selectedVm, 
+  isDescribing, 
+  onDescribe, 
+  onClear, 
+  hasSelection 
+}: InstanceInfoPanelProps) {
   return (
     <section>
-      <h2>Instance Info</h2>
+      <div className="section-header">
+        <h2>Instance Info</h2>
+        <div className="button-group">
+          {selectedVm && onDescribe && (
+            <button
+              type="button"
+              onClick={onDescribe}
+              disabled={isDescribing}
+            >
+              {isDescribing ? 'Describing...' : 'Describe'}
+            </button>
+          )}
+          {hasSelection && onClear && (
+            <button
+              type="button"
+              onClick={onClear}
+              className="secondary"
+            >
+              Clear Selection
+            </button>
+          )}
+        </div>
+      </div>
       {error && <Alert message={error} variant="error" />}
       {!info ? (
-        <p className="muted">Describe an instance to view details.</p>
+        <p className="muted">
+          {selectedVm ? 'Click "Describe" to view instance details.' : 'Select a VM and describe it to view details.'}
+        </p>
       ) : (
         <div className="card">
           <p>

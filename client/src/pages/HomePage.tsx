@@ -61,7 +61,8 @@ type Action =
   | { type: "describeError"; payload: string }
   | { type: "deleteStart" }
   | { type: "deleteSuccess"; payload: { deletedId: number } }
-  | { type: "deleteError"; payload: string };
+  | { type: "deleteError"; payload: string }
+  | { type: "clearSelection" };
 
 const initialState: HomeState = {
   form: initialForm,
@@ -145,6 +146,14 @@ function reducer(state: HomeState, action: Action): HomeState {
     }
     case "deleteError":
       return { ...state, isDeleting: false, listError: action.payload };
+    case "clearSelection":
+      return {
+        ...state,
+        selectedVm: null,
+        instanceInfo: null,
+        detailsError: null,
+        describeError: null,
+      };
     default:
       return state;
   }
@@ -235,11 +244,12 @@ const HomePage: React.FC = () => {
     }
   };
 
-  const handleDescribe = async (id: number) => {
+  const handleDescribe = async () => {
+    if (!state.selectedVm) return;
     try {
       if (state.isDescribing) return; // debounce describe
       dispatch({ type: "describeStart" });
-      const info = await describeInstanceByEntityId(id);
+      const info = await describeInstanceByEntityId(state.selectedVm.id);
       dispatch({ type: "describeSuccess", payload: info });
     } catch (err) {
       dispatch({
@@ -268,6 +278,10 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const handleClearSelection = () => {
+    dispatch({ type: "clearSelection" });
+  };
+
   return (
     <div className="page">
       <div className="page-header">
@@ -286,11 +300,9 @@ const HomePage: React.FC = () => {
       <VmTable
         vms={state.vms}
         isFetching={state.isFetchingList}
-        isDescribing={state.isDescribing}
         isDeleting={state.isDeleting}
         error={state.listError}
         onSelect={handleSelect}
-        onDescribe={handleDescribe}
         onDelete={handleDelete}
         onRefresh={() => {
           if (state.page !== 1) {
@@ -320,6 +332,11 @@ const HomePage: React.FC = () => {
         <InstanceInfoPanel
           info={state.instanceInfo}
           error={state.describeError}
+          selectedVm={state.selectedVm}
+          isDescribing={state.isDescribing}
+          onDescribe={handleDescribe}
+          onClear={handleClearSelection}
+          hasSelection={state.selectedVm !== null || state.instanceInfo !== null}
         />
       </div>
     </div>

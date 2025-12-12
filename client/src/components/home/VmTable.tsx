@@ -5,11 +5,9 @@ import { EmptyState } from './EmptyState';
 interface VmTableProps {
   vms: VMDto[];
   isFetching: boolean;
-  isDescribing: boolean;
   isDeleting: boolean;
   error?: string | null;
   onSelect: (id: number) => void;
-  onDescribe: (id: number) => void;
   onDelete: (id: number) => void;
   onRefresh: () => void;
 }
@@ -17,11 +15,9 @@ interface VmTableProps {
 export function VmTable({
   vms,
   isFetching,
-  isDescribing,
   isDeleting,
   error,
   onSelect,
-  onDescribe,
   onDelete,
   onRefresh,
 }: VmTableProps) {
@@ -65,12 +61,7 @@ export function VmTable({
                       View
                     </button>
                     <button
-                      onClick={() => onDescribe(vm.id)}
-                      disabled={isFetching || isDescribing}
-                    >
-                      {isDescribing ? 'Describing...' : 'Describe'}
-                    </button>
-                    <button
+                      className="delete-button"
                       onClick={() => onDelete(vm.id)}
                       disabled={isFetching || isDeleting}
                     >
