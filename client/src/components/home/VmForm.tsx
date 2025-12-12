@@ -80,16 +80,16 @@ export function VmForm({
         </div>
 
         <div className="form-group">
-          <label className="form-label">
+          <label className="form-label required">
             Region
-            <span className="optional-badge">Optional</span>
             <select 
               name="region" 
               value={form.region ?? ''} 
               onChange={onChange}
               className="form-select"
+              required
             >
-              <option value="">Default (server)</option>
+              <option value="">Select region</option>
               <option value="us-east-1">us-east-1</option>
               <option value="us-east-2">us-east-2</option>
               <option value="us-west-2">us-west-2</option>

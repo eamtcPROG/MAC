@@ -243,7 +243,7 @@ section {
 .form-label {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.1rem;
   font-size: 0.875rem;
   font-weight: 500;
   color: #334155;
